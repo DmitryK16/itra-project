@@ -25,6 +25,7 @@ class Company extends Model
         'img',
         'amount',
         'user_id',
+        'subject_id',
     ];
 
     /**
@@ -44,5 +45,10 @@ class Company extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
     }
 }

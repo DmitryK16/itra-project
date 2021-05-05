@@ -26,11 +26,12 @@ class CompanyFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'list_bonus' => [],
-            'small_descriptions' =>$this->faker->text,
-            'video' =>$this->faker->url,
-            'img' =>$this->faker->imageUrl(),
+            'small_descriptions' => $this->faker->text,
+            'video' => $this->faker->url,
+            'img' => $this->faker->imageUrl(),
             'amount' => round($this->faker->randomFloat(null, 10, 1200), 2),
-            'user_id' =>$this->faker->numberBetween(1, 10)
+            'user_id' => $this->faker->numberBetween(1, 10),
+            'subject_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

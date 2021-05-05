@@ -27,6 +27,11 @@ class CreateCompaniesTable extends Migration
                 ->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
 
+            $table->unsignedInteger('subject_id');
+            $table->foreign('subject_id')
+                ->references('id')->on('subjects')
+                ->onUpdate('cascade')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
