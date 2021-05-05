@@ -22,10 +22,26 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        if (!User::whereEmail('admin@example.com')->first()) {
+            $faker = \Faker\Factory::create();
+
+            User::create([
+                'name' => $faker->name,
+                'role' => User::ADMIN_ROLE,
+                'email' => 'admin@example.com',
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
+                'password' => bcrypt('12345678')
+            ]);
+
+
+        }
+
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'role' => User::USER_ROLE,
             'password' => bcrypt('12345678'),
             'remember_token' => Str::random(10),
         ];
