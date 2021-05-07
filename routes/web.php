@@ -13,11 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
+Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -26,5 +24,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin/account'], function () 
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/company'], function () {
-    Route::get('/', [App\Http\Controllers\CompanyController::class, 'list']);
+    Route::get('/', [App\Http\Controllers\Admin\AdminCompanyController::class, 'list']);
+});
+
+Route::group(['prefix' => 'company'], function () {
+    Route::get('/view/{company}', [App\Http\Controllers\CompanyController::class, 'view'])->name('view_company');
 });

@@ -29,7 +29,8 @@ class CompanyFactory extends Factory
             'small_descriptions' => $this->faker->text,
             'video' => $this->faker->url,
             'img' => $this->faker->imageUrl(),
-            'amount' => round($this->faker->randomFloat(null, 10, 1200), 2),
+            'required_amount' => round($this->faker->randomFloat(null, 510, 1200), 2),
+            'deposited_amount' => round($this->faker->randomFloat(null, 10, 500), 2),
             'user_id' => $this->faker->numberBetween(1, 10),
             'subject_id' => $this->faker->numberBetween(1, 10),
         ];

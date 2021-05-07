@@ -4,6 +4,9 @@
 // Variables
 @import 'variables';
 
+@import '~owl.carousel/dist/assets/owl.carousel.css';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import 'main';
+@import 'company';
+@import 'news';
