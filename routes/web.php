@@ -6,6 +6,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Admin\AdminCompanyController;
+use App\Http\Controllers\Admin\AdminNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin/account'], function () 
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/company'], function () {
     Route::get('/', [AdminCompanyController::class, 'list']);
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin/news'], function () {
+    Route::get('/', [AdminNewsController::class, 'list'])->name('admin_news');
+    Route::get('/create', [AdminNewsController::class, 'create'])->name('admin_news_create');
+    Route::post('/store', [AdminNewsController::class, 'store'])->name('admin_news_store');
 });
 
 Route::group(['prefix' => 'company'], function () {

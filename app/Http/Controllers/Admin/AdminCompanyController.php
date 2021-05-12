@@ -7,6 +7,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Nayjest\Grids\EloquentDataProvider;
 use Nayjest\Grids\FieldConfig;
@@ -20,21 +23,26 @@ use Nayjest\Grids\GridConfig;
  */
 class AdminCompanyController extends Controller
 {
-    public function list()
+    public function list(): Factory|View|Application
     {
         /** @var User $user */
         $user = Auth::user();
-        $companies = $user->companies;
+
+        $query = (new Company())::leftJoin('subjects', 'subjects.id', '=', 'companies.subject_id')
+            ->select('companies.*', 'subjects.name as subject_name');
+
+        if (!$user->isAdmin()) {
+            $query->where('user_id', $user->id);
+        }
 
         $config = (new GridConfig())
             ->setDataProvider(new EloquentDataProvider(
-                    (new Company())::leftJoin('subjects', 'subjects.id', '=', 'companies.subject_id')
-                        ->select('companies.*', 'subjects.name as subject_name')
-                        ->where('user_id', $user->id)
+                    $query
                         ->groupBy('companies.id')
                         ->newQuery()
                 )
             )
+            ->setPageSize(15)
             ->setColumns([
                 (new FieldConfig)
                     ->setName('subject_name')
@@ -90,7 +98,6 @@ class AdminCompanyController extends Controller
         $grid = new Grid($config);
 
         return view('admin.company.list')
-            ->with('companies', $companies)
             ->with('grid', $grid);
     }
 }

@@ -32,7 +32,9 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav ml-md-auto d-md-flex">
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Profile
+                        <a class="nav-link" href="/login">
+                            @php($userName = \Illuminate\Support\Facades\Auth::user()->name ?? '')
+                            {{ Auth::check() ? $userName : 'Profile' }}
                         </a>
                     </li>
                     <li class="nav-item">

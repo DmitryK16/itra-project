@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\Models\News
@@ -48,5 +49,20 @@ class News extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * @param $value
+     * @return string|null
+     */
+    public function getImgAttribute($value): ?string
+    {
+        $disk = Storage::disk('public');
+
+        if ($disk->exists($value)) {
+            return $disk->url($value);
+        }
+
+        return null;
     }
 }

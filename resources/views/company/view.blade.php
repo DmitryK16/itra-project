@@ -79,7 +79,7 @@
                                     {{ $news->name }}
                                 </h3>
                                 <p class="post-description">
-                                    {{ \Illuminate\Support\Str::limit($news->descriptions, 150, $end='...') }}
+                                    {!! \Illuminate\Support\Str::limit($news->descriptions, 150, $end='...')  !!}
                                 </p>
                                 <div class="post-bar">
 {{--                                    <span><i class="fa fa-user"></i> <a href="#">BootstrapTema</a></span>--}}
