@@ -1,6 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\Admin\AdminCompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'welcome']);
+Route::get('/', [HomeController::class, 'welcome']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/account'], function () {
-    Route::get('/', [App\Http\Controllers\AccountController::class, 'profile']);
+    Route::get('/', [AccountController::class, 'profile']);
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/company'], function () {
-    Route::get('/', [App\Http\Controllers\Admin\AdminCompanyController::class, 'list']);
+    Route::get('/', [AdminCompanyController::class, 'list']);
 });
 
 Route::group(['prefix' => 'company'], function () {
-    Route::get('/view/{company}', [App\Http\Controllers\CompanyController::class, 'view'])->name('view_company');
+    Route::get('/view/{company}', [CompanyController::class, 'view'])->name('view_company');
 });
