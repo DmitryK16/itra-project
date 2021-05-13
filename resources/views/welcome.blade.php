@@ -19,6 +19,9 @@
                     </div>
                 </div>
             @endforeach
+                <div class="d-flex news-pagination">
+                    {!! $companies->links() !!}
+                </div>
         </div>
     </div>
 @endsection

@@ -37,6 +37,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin/news'], function () {
     Route::get('/', [AdminNewsController::class, 'list'])->name('admin_news');
     Route::get('/create', [AdminNewsController::class, 'create'])->name('admin_news_create');
     Route::post('/store', [AdminNewsController::class, 'store'])->name('admin_news_store');
+    Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('admin_news_edit');
+    Route::post('/update/{news}', [AdminNewsController::class, 'update'])->name('admin_news_update');
+    Route::delete('/delete/{news}', [AdminNewsController::class, 'delete'])->name('admin_news_delete');
 });
 
 Route::group(['prefix' => 'company'], function () {

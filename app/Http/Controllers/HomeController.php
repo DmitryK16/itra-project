@@ -18,7 +18,7 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        $companies = Company::all();
+        $companies = Company::paginate(9);
 
         return view('welcome')->with('companies', $companies);
     }

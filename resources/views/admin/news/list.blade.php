@@ -16,3 +16,25 @@
     <?= $grid ?>
 
 @endsection
+
+
+@section('js')
+    <script>
+        $("a[data-form-delete]").click(function (e) {
+            e.preventDefault();
+
+            var elementId = $(this).data('element-id');
+            console.log(elementId);
+            $.ajax({
+                url: "/admin/news/delete/" + elementId,
+                type: "DELETE",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                   window.location.reload();
+                },
+            });
+        })
+    </script>
+@stop
