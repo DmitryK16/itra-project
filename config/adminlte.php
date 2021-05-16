@@ -250,11 +250,6 @@ return [
             'icon'    => 'fas fa-fw fa-share',
             'url'  => 'admin/news',
         ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
     ],
 
     /*

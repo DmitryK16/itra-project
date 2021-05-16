@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Nayjest\Grids\EloquentDataProvider;
 use Nayjest\Grids\FieldConfig;
@@ -39,6 +43,7 @@ class AdminCompanyController extends Controller
             ->setDataProvider(new EloquentDataProvider(
                     $query
                         ->groupBy('companies.id')
+                        ->orderBy('created_at', 'DESC')
                         ->newQuery()
                 )
             )
@@ -93,11 +98,77 @@ class AdminCompanyController extends Controller
                             ->setOperator(FilterConfig::OPERATOR_LIKE)
                     )
                     ->setSortable(true),
+                (new FieldConfig)
+                    ->setName('id')
+                    ->setLabel('Actions')
+                    ->setCallback(function ($value) {
+
+                        return "<a href='/admin/company/delete/$value' data-element-id='$value' data-form-delete>Delete</a>
+                                    ";
+                    }),
             ]);
 
         $grid = new Grid($config);
 
         return view('admin.company.list')
             ->with('grid', $grid);
+    }
+
+    public function create(): Factory|View|Application
+    {
+        $subjects = $this->getSubjects();
+
+        return view('admin.company.create')->with('subjects', $subjects);
+    }
+
+    public function store(CompanyRequest $request): Redirector|RedirectResponse|Application
+    {
+        $result = $request->execute();
+
+        if (!empty($result)) {
+            return redirect(route('admin_companies'))->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Возникли некоторые ошибки');
+    }
+
+    public function delete(Company $company)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (!$user->isAdmin()) {
+            if ($company->user_id === $user->id && $company->delete()) {
+                return [
+                    'message' => 'Запись успешно удалена',
+                    'status' => 'ok'
+                ];
+            }
+
+            return [
+                'message' => 'Не удалось удалить запись',
+                'status' => 'error'
+            ];
+        }
+
+        $company->delete();
+
+        return [
+            'message' => 'Запись успешно удалена',
+            'status' => 'ok'
+        ];
+    }
+
+    protected function getSubjects()
+    {
+        $subjects = Subject::all();
+
+        $subjectsMapped = [];
+
+        foreach ($subjects as $subject) {
+            $subjectsMapped[$subject->id] = $subject->name;
+        }
+
+        return $subjectsMapped;
     }
 }

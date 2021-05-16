@@ -11,3 +11,6 @@
         Email: {{$user->email}}
     </div>
 @endsection
+
+@section('js')
+@endsection

@@ -65,3 +65,29 @@ body {
 .my-container {
     margin-top: 30px;
 }
+
+.company-pagination {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.company-pagination svg {
+    display: inline-flex;
+    max-width: 20px;
+}
+
+.company-pagination .hidden {
+    display: block;
+}
+
+.company-pagination nav {
+    width: 100%;
+}
+
+.company-pagination p {
+    margin: 10px 0;
+}
+
+.navbar-nav form {
+    display: none;
+}

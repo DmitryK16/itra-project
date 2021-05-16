@@ -30,7 +30,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin/account'], function () 
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/company'], function () {
-    Route::get('/', [AdminCompanyController::class, 'list']);
+    Route::get('/', [AdminCompanyController::class, 'list'])->name('admin_companies');
+    Route::delete('/delete/{company}', [AdminCompanyController::class, 'delete'])->name('admin_company_delete');
+    Route::get('/create', [AdminCompanyController::class, 'create'])->name('admin_company_create');
+    Route::post('/store', [AdminCompanyController::class, 'store'])->name('admin_company_store');
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin/news'], function () {

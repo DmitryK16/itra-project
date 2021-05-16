@@ -19,7 +19,7 @@
                     </div>
                 </div>
             @endforeach
-                <div class="d-flex news-pagination">
+                <div class="d-flex company-pagination">
                     {!! $companies->links() !!}
                 </div>
         </div>

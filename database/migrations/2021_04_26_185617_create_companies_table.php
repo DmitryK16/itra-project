@@ -16,12 +16,12 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->json('list_bonus');
+            $table->json('list_bonus')->nullable();
             $table->text('small_descriptions');
-            $table->string('video');
-            $table->string('img');
+            $table->string('video')->nullable();
+            $table->string('img')->nullable();
             $table->float('required_amount');
-            $table->float('deposited_amount');
+            $table->float('deposited_amount')->default(0);
 
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')

@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\News;
+use App\Models\Company;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class NewsRequest extends FormRequest
+class CompanyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +27,10 @@ class NewsRequest extends FormRequest
     {
         return [
             'name' => 'required|max:265',
-            'descriptions' => 'required|min:10|max:1000',
-            'img' => 'image|nullable',
-            'company_id' =>  'required|integer',
+            'small_descriptions' => 'required|min:10|max:1000',
+            'video' => 'nullable',
+            'subject_id' => 'required|integer',
+            'required_amount' => 'required|numeric',
         ];
     }
 
@@ -36,18 +38,13 @@ class NewsRequest extends FormRequest
     {
         $data = $this->validated();
 
-        $imgNews = $this->file('img');
-        $imgPath = $imgNews->store('news', 'public');
-
-        if (empty($imgPath)) {
-            return null;
-        }
-
-        return News::create([
-            'company_id' => $data['company_id'],
-            'img' => $imgPath,
+        return Company::create([
+            'subject_id' => $data['subject_id'],
+            'video' => $data['video'],
+            'small_descriptions' => $data['small_descriptions'],
             'name' => $data['name'],
-            'descriptions' => $data['descriptions'],
+            'required_amount' => $data['required_amount'],
+            'user_id' => Auth::id(),
         ]);
     }
 }
