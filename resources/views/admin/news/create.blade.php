@@ -69,4 +69,5 @@
                         filebrowserUploadMethod: 'form'
                     });
             </script>
+
 @stop

@@ -9,3 +9,6 @@
     @endif
 </div>
 @endsection
+
+@section('js')
+@endsection
